@@ -20,12 +20,36 @@
     <p>
       <button @click="fetchData">データ取得</button>
     </p>
+
+    <table v-if="data.length > 0">
+      <thead>
+        <tr>
+          <th>名前</th>
+          <th>タイプ</th>
+          <th>重さ</th>
+          <th>特性</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="row in data" :key="row.name">
+          <td>{{ row.name }}</td>
+          <td>{{ row.type }}</td>
+          <td>{{ row.weight }}</td>
+          <td>{{ row.ability }}</td>
+        </tr>
+      </tbody>
+    </table>
   </body>
+
   <script>
     function dataset() {
       return {
-        data: false,
+        data: '',
         async fetchData() {
+          const res = await fetch('data.json');
+          const json = await res.json();
+          this.data = json.list;
+          console.log(this.data);
         }
       };
     }
